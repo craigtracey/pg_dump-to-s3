@@ -1,9 +1,7 @@
-FROM ubuntu:14.04
+FROM postgres:9.6-alpine
 
-RUN apt-get update && apt-get install --no-install-recommends -y postgresql-client-9.3 python-pip && \
-  pip install awscli && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add py-pip
+RUN pip install awscli --upgrade --user
 
 ENV PGDUMP_OPTIONS -Fc --no-acl --no-owner
 ENV PGDUMP_DATABASE **None**

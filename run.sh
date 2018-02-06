@@ -53,7 +53,10 @@ echo "Starting dump of ${PGDUMP_DATABASE} database(s) from ${POSTGRES_PORT_5432_
 
 export PGPASSWORD=${POSTGRES_ENV_POSTGRES_PASSWORD}
 
-pg_dump $PGDUMP_OPTIONS $POSTGRES_HOST_OPTS $PGDUMP_DATABASE | aws s3 cp - s3://$AWS_BUCKET/$PREFIX/$(date +"%Y")/$(date +"%m")/$(date +"%d").dump || exit 2
+DUMPFILE=`date +%Y%m%d_%H%M%S`
+pg_dump $PGDUMP_OPTIONS $POSTGRES_HOST_OPTS $PGDUMP_DATABASE > $DUMPFILE
+gzip $DUMPFILE
+aws s3 cp $DUMPFILE.gz s3://$AWS_BUCKET/$PREFIX/$DUMPFILE.gz
 
 echo "Done!"
 
