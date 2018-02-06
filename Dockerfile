@@ -1,7 +1,7 @@
 FROM postgres:9.6-alpine
 
 RUN apk update && apk add py-pip
-RUN pip install awscli --upgrade --user
+RUN pip install awscli --upgrade
 
 ENV PGDUMP_OPTIONS -Fc --no-acl --no-owner
 ENV PGDUMP_DATABASE **None**
